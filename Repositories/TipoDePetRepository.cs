@@ -20,13 +20,13 @@ namespace API_PetShop.Repositories
         {
             cmd.Connection = conexao.Conectar();
 
-            cmd.CommandText = "UPDATE TipoDePet SET " +
-                "Descricao = @descricao";
-
-            cmd.Parameters.AddWithValue("@descricao", t.Descricao);
+           cmd.CommandText = "UPDATE TipoDePet SET Descricao= @descricao WHERE IdTipoDePet = @id";
 
             cmd.Parameters.AddWithValue("@id", id);
-         
+            cmd.Parameters.AddWithValue("@descricao", t.Descricao);
+
+
+
             cmd.ExecuteNonQuery();
 
             conexao.Desconectar();
