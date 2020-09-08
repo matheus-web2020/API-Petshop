@@ -16,8 +16,6 @@ namespace API_PetShop.Controllers
     {
         TipoDePetRepository repo = new TipoDePetRepository();
 
-
-
         // GET: api/<TipoDePetController>
         [HttpGet]
         public List<TipoDePet> Get()

@@ -14,8 +14,8 @@ namespace API_PetShop.Interfaces
 
         Raca BuscarPorId(int id);
 
-        Raca Alterar(Raca r);
+        Raca Alterar(int id, Raca r);
 
-        TipoDePet Excluir(TipoDePet t);
+        void Excluir(int id);
     }
 }

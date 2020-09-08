@@ -16,29 +16,101 @@ namespace API_PetShop.Repositories
         PetShopContext conexao = new PetShopContext();
 
         SqlCommand cmd = new SqlCommand();
-        public Raca Alterar(Raca r)
+
+        public Raca Alterar(int id, Raca r)
         {
-            throw new NotImplementedException();
+            cmd.Connection = conexao.Conectar();
+
+            cmd.CommandText = "UPDATE Raca SET Descricao= @descricao, IdTipoDePet= @idtipodepet WHERE IdRaca = @id";
+
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@descricao", r.Descricao);
+            cmd.Parameters.AddWithValue("@idtipodepet", r.IdTipoPet);
+
+            cmd.ExecuteNonQuery();
+
+            conexao.Desconectar();
+
+            return r;
         }
 
         public Raca BuscarPorId(int id)
         {
-            throw new NotImplementedException();
+            cmd.Connection = conexao.Conectar();
+
+            cmd.CommandText = "SELECT * FROM Raca WHERE IdRaca = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+
+            SqlDataReader dados = cmd.ExecuteReader();
+
+            Raca r = new Raca();
+
+            while (dados.Read())
+            {
+                r.IdRaca = Convert.ToInt32(dados.GetValue(0));
+                r.Descricao = dados.GetValue(1).ToString();
+                r.IdTipoPet = Convert.ToInt32(dados.GetValue(2));
+            }
+
+            conexao.Desconectar();
+
+            return r;
         }
 
         public Raca Cadastrar(Raca r)
         {
-            throw new NotImplementedException();
+            cmd.Connection = conexao.Conectar();
+
+            cmd.CommandText = "INSERT INTO Raca (Descricao, IdTipoDePet) " +
+                "VALUES" + "(@descricao, @idtipodepet)";
+
+            cmd.Parameters.AddWithValue("@descricao", r.Descricao);
+            cmd.Parameters.AddWithValue("@idtipodepet", r.IdTipoPet);
+
+            cmd.ExecuteNonQuery();
+
+            conexao.Desconectar();
+
+            return r;
         }
 
-        public TipoDePet Excluir(TipoDePet t)
+        public void Excluir(int id)
         {
-            throw new NotImplementedException();
+            cmd.Connection = conexao.Conectar();
+
+            cmd.CommandText = "DELETE FROM Raca WHERE Idraca = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
+
+            conexao.Desconectar();
         }
 
         public List<Raca> LerTudo()
         {
-            throw new NotImplementedException();
+            cmd.Connection = conexao.Conectar();
+
+            cmd.CommandText = "SELECT * FROM Raca";
+
+            SqlDataReader dados = cmd.ExecuteReader();
+
+            List<Raca> racas = new List<Raca>();
+
+            while (dados.Read())
+            {
+                racas.Add(
+                    new Raca()
+                    {
+                        IdRaca = Convert.ToInt32(dados.GetValue(0)),
+                        Descricao = dados.GetValue(1).ToString(),
+                        IdTipoPet = Convert.ToInt32(dados.GetValue(2)),
+                    }
+                  );
+            }
+
+            conexao.Desconectar();
+
+            return racas;
         }
     }
 }
