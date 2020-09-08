@@ -7,5 +7,7 @@ namespace API_PetShop.Domains
 {
     public class TipoDePet
     {
+        public int IdTipoPet { get; set; }
+        public string Descricao { get; set; }
     }
 }
